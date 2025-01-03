@@ -44,7 +44,21 @@ Translate between **Arabic** and **Darija** seamlessly. Use the **Switch Button 
 
 # Layout for Input, Switch Button, and Output
 col1, col2, col3 = st.columns([1, 0.2, 1])
-
+# Translation Button
+if st.button("Translate"):
+    if st.session_state.input_text.strip():
+        with st.spinner("Translating..."):
+            # Load the model and tokenizer
+            direction = st.session_state.direction
+            tokenizer, model = load_translation_model(direction)
+            if tokenizer and model:
+                # Perform translation and update the output text
+                st.session_state.output_text = translate_text(tokenizer, model, st.session_state.input_text)
+                st.success("Translation completed!")
+            else:
+                st.error("Failed to load the translation model.")
+    else:
+        st.error("Please enter text to translate!")
 # Switch Button Section
 with col2:
     if st.button("↔", help="Switch translation direction"):
@@ -84,21 +98,7 @@ with col3:
         disabled=True,
     )
 
-# Translation Button
-if st.button("Translate"):
-    if st.session_state.input_text.strip():
-        with st.spinner("Translating..."):
-            # Load the model and tokenizer
-            direction = st.session_state.direction
-            tokenizer, model = load_translation_model(direction)
-            if tokenizer and model:
-                # Perform translation and update the output text
-                st.session_state.output_text = translate_text(tokenizer, model, st.session_state.input_text)
-                st.success("Translation completed!")
-            else:
-                st.error("Failed to load the translation model.")
-    else:
-        st.error("Please enter text to translate!")
+
 
 # Footer
 st.markdown("---")
