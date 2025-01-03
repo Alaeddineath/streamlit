@@ -1,23 +1,17 @@
 import streamlit as st
-from transformers import MarianMTModel, MarianTokenizer
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 # Function to load the translation model
 @st.cache_resource
 def load_translation_model(direction):
     # Load the appropriate model based on the direction
-    if direction == "Arabic to Darija":
-        model_name = "Helsinki-NLP/opus-mt-ar-en"
-    elif direction == "Darija to Arabic":
-        model_name = "Helsinki-NLP/opus-mt-en-ar"
-    else:
-        st.error("Invalid direction selected!")
-        return None, None
+    model_name = "hanaafra/nllb-msa-dardja-v1"
     
     st.write(f"Loading model: {model_name}")
     
     try:
-        tokenizer = MarianTokenizer.from_pretrained(model_name)
-        model = MarianMTModel.from_pretrained(model_name)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
         return tokenizer, model
     except Exception as e:
         st.error(f"Error loading model: {e}")
@@ -64,21 +58,6 @@ with col2:
         temp = st.session_state.input_text
         st.session_state.input_text = st.session_state.output_text
         st.session_state.output_text = temp
-# Translation Button
-if st.button("Translate"):
-    if st.session_state.input_text.strip():
-        with st.spinner("Translating..."):
-            # Load the model and tokenizer
-            direction = st.session_state.direction
-            tokenizer, model = load_translation_model(direction)
-            if tokenizer and model:
-                # Perform translation and update the output text
-                st.session_state.output_text = translate_text(tokenizer, model, st.session_state.input_text)
-                st.success("Translation completed!")
-            else:
-                st.error("Failed to load the translation model.")
-    else:
-        st.error("Please enter text to translate!")
 
 # Input Section
 with col1:
@@ -105,7 +84,21 @@ with col3:
         disabled=True,
     )
 
-
+# Translation Button
+if st.button("Translate"):
+    if st.session_state.input_text.strip():
+        with st.spinner("Translating..."):
+            # Load the model and tokenizer
+            direction = st.session_state.direction
+            tokenizer, model = load_translation_model(direction)
+            if tokenizer and model:
+                # Perform translation and update the output text
+                st.session_state.output_text = translate_text(tokenizer, model, st.session_state.input_text)
+                st.success("Translation completed!")
+            else:
+                st.error("Failed to load the translation model.")
+    else:
+        st.error("Please enter text to translate!")
 
 # Footer
 st.markdown("---")
