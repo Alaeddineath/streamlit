@@ -54,18 +54,19 @@ st.set_page_config(
     layout="centered"               # Center the app layout
 )
 
-# The DzEloq logo
-st.image("DZELOQ_LOGO.png", width=300)  
-
+# Display the DzEloq logo and title, both vertically and centered
 st.markdown(
     """
-    <p style="font-size: 1.2em; color: #666; text-align: center;">
-        Your bridge between <strong>Algerian Darija</strong> and <strong>Arabic</strong>.
-    </p>
+    <div style="text-align: center;">
+        <img src="DZELOQ_LOGO.png" alt="Dzeloq Logo" width="150">
+        <h1 style="font-size: 2.5em; color: #4CAF50; margin-top: 10px;">DzEloq Translator</h1>
+        <p style="font-size: 1.2em; color: #666;">
+            Your bridge between <strong>Algerian Darija</strong> and <strong>Arabic</strong>.
+        </p>
+    </div>
     """,
     unsafe_allow_html=True,
 )
-
 
 # Load the model and tokenizer (cache it to optimize performance)
 tokenizer, model = load_huggingface_model()
