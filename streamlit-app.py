@@ -37,10 +37,22 @@ if "output_text" not in st.session_state:
     st.session_state.output_text = ""
 
 # Streamlit page config
-st.set_page_config(page_title="DZeloq - Translator", page_icon="🌍", layout="centered")
+st.set_page_config(
+    page_title="DZeloq - Translator",
+    page_icon="translation_icon.png",  # Custom icon
+    layout="centered"
+)
 
 # Title and description
-st.title("🌍 DZeloq")
+st.markdown(
+    """
+    <h1 style='text-align: center;'>
+        <img src='translation_icon.png' alt='Translation Icon' width='30'/>
+        DZeloq - Translator
+    </h1>
+    """,
+    unsafe_allow_html=True,
+)
 st.markdown("Translate **Darija** to **Arabic** seamlessly.")
 
 # Load model and tokenizer
