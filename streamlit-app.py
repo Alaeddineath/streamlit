@@ -54,11 +54,8 @@ st.set_page_config(
     layout="centered"               # Center the app layout
 )
 
-# Title Section: Add the logo and a description
-col1, col2 = st.columns([0.2, 0.8])  # Divide the header into two columns (logo and text)
-
-# The DzEloq logo and title
-st.image("DZELOQ_LOGO.png", width=120)  
+# The DzEloq logo
+st.image("DZELOQ_LOGO.png", width=300)  
 
 st.markdown(
     """
