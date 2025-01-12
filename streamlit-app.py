@@ -1,16 +1,21 @@
+import os
 import streamlit as st
 import torch
 from transformers import M2M100Tokenizer, M2M100ForConditionalGeneration
 
-# Set device (CPU or CUDA)
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 # Load the model and tokenizer from Hugging Face
 @st.cache_resource
 def load_huggingface_model():
-    model_name = "Aicha-zkr/M2M100-Algerian-Dialect-to-MSA"  # Hugging Face model path
-    tokenizer = M2M100Tokenizer.from_pretrained(model_name)
-    model = M2M100ForConditionalGeneration.from_pretrained(model_name).to(device)
+    model_name = "Aicha-zkr/M2M100-Algerian-Dialect-to-MSA"
+    
+    # Read the Hugging Face token from the environment
+    hf_token = os.getenv("HUGGINGFACE_TOKEN")
+    if not hf_token:
+        raise ValueError("Hugging Face token not found in environment variables.")
+
+    # Load tokenizer and model using the token
+    tokenizer = M2M100Tokenizer.from_pretrained(model_name, use_auth_token=hf_token)
+    model = M2M100ForConditionalGeneration.from_pretrained(model_name, use_auth_token=hf_token).to(device)
     return tokenizer, model
 
 # Translation function
