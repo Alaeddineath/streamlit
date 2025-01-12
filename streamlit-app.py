@@ -38,7 +38,7 @@ if "output_text" not in st.session_state:
 
 # Streamlit page config
 st.set_page_config(
-    page_title="",
+    page_title="DzEloq",
     page_icon="DZELOQ_LOGO.png",  # Use the uploaded logo as the site icon
     layout="centered"
 )
@@ -48,7 +48,7 @@ st.markdown(
     """
     <div style="text-align: center;">
         <img src="DZELOQ_LOGO.png" alt="DZeloq Logo" width="120">
-        <h1 style="font-size: 2.5em; color: #4CAF50; margin-top: 10px;">DZeloq Translator</h1>
+        <h1 style="font-size: 2.5em; color: #4CAF50; margin-top: 10px;"></h1>
         <p style="font-size: 1.2em; color: #666;">
             Your bridge between <strong>Algerian Darija</strong> and <strong>Arabic</strong>
         </p>
