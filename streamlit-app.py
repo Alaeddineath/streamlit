@@ -56,20 +56,17 @@ st.set_page_config(
 
 # Display the DzEloq logo and title, both vertically and centered
 # Display the DzEloq logo, title, and subtitle with proper alignment and styling
+
+# Display the DzEloq logo, title, and subtitle with proper alignment and styling
 st.markdown(
     """
     <div style="text-align: center;">
-        <!-- Logo Section -->
         <img src="DZELOQ_LOGO.png" alt="Dzeloq Logo" width="150">
-        
-        <!-- Title with Attribution -->
         <h1 style="font-size: 2.5em; color: black; margin-top: 10px;">
             <a href="https://www.flaticon.com/free-icons/translation" title="translation icons" style="text-decoration: none; color: black;">
                 DzEloq Translator
             </a>
         </h1>
-        
-        <!-- Subtitle -->
         <p style="font-size: 1.2em; color: #666;">
             Your bridge between <strong>Algerian Darija</strong> and <strong>Arabic</strong>.
         </p>
@@ -77,6 +74,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
 
 # Load the model and tokenizer (cache it to optimize performance)
 tokenizer, model = load_huggingface_model()
