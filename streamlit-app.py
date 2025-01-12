@@ -3,36 +3,32 @@ import streamlit as st
 import torch
 from transformers import M2M100Tokenizer, M2M100ForConditionalGeneration
 
-# Load the model and tokenizer from Hugging Face
 @st.cache_resource
 def load_huggingface_model():
     model_name = "Aicha-zkr/M2M100-Algerian-Dialect-to-MSA"
     
-    # Read the Hugging Face token from the environment
+    # Retrieve the Hugging Face token from the environment
     hf_token = os.getenv("HUGGINGFACE_TOKEN")
     if not hf_token:
         raise ValueError("Hugging Face token not found in environment variables.")
+    
+    # Set device (CPU or CUDA)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Load tokenizer and model using the token
     tokenizer = M2M100Tokenizer.from_pretrained(model_name, use_auth_token=hf_token)
     model = M2M100ForConditionalGeneration.from_pretrained(model_name, use_auth_token=hf_token).to(device)
     return tokenizer, model
 
-# Translation function
 def translate_text(tokenizer, model, text):
-    # Tokenize input sentence
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     encoded_input = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
-
-    # Generate translation (forcing BOS token ID for Arabic)
     arabic_lang_id = tokenizer.get_lang_id("ar")  # Modern Standard Arabic
     generated_tokens = model.generate(
         **encoded_input,
-        forced_bos_token_id=arabic_lang_id  # Force translation to Modern Standard Arabic
+        forced_bos_token_id=arabic_lang_id
     )
-
-    # Decode the generated tokens
-    translated_sentence = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
-    return translated_sentence[0]
+    return tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)[0]
 
 # Initialize session state
 if "input_text" not in st.session_state:
@@ -47,7 +43,7 @@ st.set_page_config(page_title="DZeloq - Translator", page_icon="🌍", layout="c
 st.title("🌍 DZeloq")
 st.markdown("Translate **Darija** to **Arabic** seamlessly.")
 
-# Load Hugging Face model and tokenizer
+# Load model and tokenizer
 tokenizer, model = load_huggingface_model()
 
 # UI Layout
