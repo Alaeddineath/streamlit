@@ -4,9 +4,8 @@ import torch
 from transformers import M2M100Tokenizer, M2M100ForConditionalGeneration
 
 # Load the Hugging Face model and tokenizer
-@st.cache_resource  # Cache the model and tokenizer to avoid reloading them on every interaction
+@st.cache_resource  # Cache the model and tokenizer so it doesn't reload every time
 def load_huggingface_model():
-    # Define the model name
     model_name = "Aicha-zkr/M2M100-Algerian-Dialect-to-MSA"
     
     # Get the Hugging Face token from environment variables
@@ -14,50 +13,45 @@ def load_huggingface_model():
     if not hf_token:
         raise ValueError("Hugging Face token not found in environment variables.")
     
-    # Set device to CUDA if available, otherwise use CPU
+    # Use GPU if available, otherwise fallback to CPU
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    # Load the tokenizer and model using the provided Hugging Face token
+    # Load the tokenizer and model with the token
     tokenizer = M2M100Tokenizer.from_pretrained(model_name, use_auth_token=hf_token)
     model = M2M100ForConditionalGeneration.from_pretrained(model_name, use_auth_token=hf_token).to(device)
     
     return tokenizer, model
 
-# Function to handle translation
+# Translation function
 def translate_text(tokenizer, model, text):
-    
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    
-    # Tokenize the input text
+    # Tokenize the input
     encoded_input = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
     
-    # Force translation to Modern Standard Arabic (BOS token for Arabic)
+    # Translate to Arabic (force Arabic as the output language)
     arabic_lang_id = tokenizer.get_lang_id("ar")
-    
-    # Generate the translated text
     generated_tokens = model.generate(
         **encoded_input,
         forced_bos_token_id=arabic_lang_id
     )
     
-    # Decode the tokens to readable text
+    # Decode the tokens into text
     return tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)[0]
 
-# Initialize session state variables (to store user input and output)
+# Initialize session states for input/output
 if "input_text" not in st.session_state:
-    st.session_state.input_text = ""  # Stores the text entered by the user
+    st.session_state.input_text = ""
 if "output_text" not in st.session_state:
-    st.session_state.output_text = ""  # Stores the translated text
+    st.session_state.output_text = ""
 
-# Configure the Streamlit app's appearance
+# Configure the Streamlit app
 st.set_page_config(
-    page_title="DzEloq Translator",  # Title shown in the browser tab
-    page_icon="DZELOQ_LOGO.png",    # Custom logo shown in the browser tab
-    layout="centered"               # Center the app layout
+    page_title="DzEloq Translator",  # Title in the browser tab
+    page_icon="https://raw.githubusercontent.com/Alaeddineath/streamlit/main/DZELOQ_LOGO.png",  # Use the logo for the tab icon
+    layout="centered"  # Center everything in the app
 )
-# Get the absolute path to the logo file
-logo_path = os.path.abspath("DZELOQ_LOGO.png")
 
+# Header: Add the logo and title
 st.markdown(
     """
     <div style="text-align: center;">
@@ -75,49 +69,44 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Load the model and tokenizer (cache it to optimize performance)
+# Load the tokenizer and model
 tokenizer, model = load_huggingface_model()
 
-# UI Layout
-col1, col2, col3 = st.columns([1, 0.2, 1])  # Divide the translation section into three columns
+# App layout: Divide into three columns
+col1, col2, col3 = st.columns([1, 0.2, 1])
 
-# Add a switch button (currently inactive for Darija to Arabic translation)
+# Add a placeholder switch button
 with col2:
     st.button("↔", help="Arabic to Darija translation is coming soon!")
 
-# Translate Button: Trigger translation when clicked
+# Translate button logic
 if st.button("Translate"):
-    # Ensure the input text is not empty
-    if st.session_state.input_text.strip():
-        # Display a spinner while translating
-        with st.spinner("Translating..."):
-            # Perform the translation
+    if st.session_state.input_text.strip():  # Check if there's text to translate
+        with st.spinner("Translating..."):  # Show a spinner while processing
             st.session_state.output_text = translate_text(
                 tokenizer, model, st.session_state.input_text
             )
-        # Show success message after translation is completed
-        st.success("Translation completed!")
+        st.success("Translation completed!")  # Success message
     else:
-        # Display an error message if the input text is empty
-        st.error("Please enter text to translate!")
+        st.error("Please enter text to translate!")  # Error if no input
 
-# Input Section: Add a text box for user input
+# Input box for Darija
 with col1:
     st.session_state.input_text = st.text_area(
-        "Input (Darija)",              # Label for the input box
-        value=st.session_state.input_text,  # Pre-fill with any existing session input
-        height=150,                    # Height of the text box
+        "Input (Darija)",
+        value=st.session_state.input_text,
+        height=150,
     )
 
-# Output Section: Add a disabled text box to show the translated text
+# Output box for Arabic
 with col3:
     st.text_area(
-        "Output (Arabic)",             # Label for the output box
-        value=st.session_state.output_text,  # Display the translated output
-        height=150,                    # Height of the text box
-        disabled=True,                 # Make it read-only
+        "Output (Arabic)",
+        value=st.session_state.output_text,
+        height=150,
+        disabled=True,  # Make it read-only
     )
 
-# Footer Section: Add a divider and a footer message
-st.markdown("---")  # Horizontal divider
+# Footer
+st.markdown("---")
 st.caption("Made with ❤️ in Algeria. DzEloq © 2024")
