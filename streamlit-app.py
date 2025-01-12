@@ -26,6 +26,8 @@ def load_huggingface_model():
 # Function to handle translation
 def translate_text(tokenizer, model, text):
     
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
     # Tokenize the input text
     encoded_input = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
     
