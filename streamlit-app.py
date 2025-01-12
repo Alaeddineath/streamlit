@@ -38,76 +38,20 @@ if "output_text" not in st.session_state:
 
 # Streamlit page config
 st.set_page_config(
-    page_title="DZeloq - Translator",
+    page_title="",
     page_icon="DZELOQ_LOGO.png",  # Use the uploaded logo as the site icon
     layout="centered"
-)
-
-# Custom CSS for Styling
-st.markdown(
-    """
-    <style>
-    /* Background color */
-    .stApp {
-        background-color: #FFFFFF;
-    }
-
-    /* Title styling */
-    .title-container h1 {
-        color: #FF00FF;
-        font-size: 2.5em;
-        font-weight: bold;
-        margin: 10px;
-    }
-
-    /* Subtitle styling */
-    .subtitle-container p {
-        color: #00BFFF;
-        font-size: 1.2em;
-        margin: 5px;
-    }
-
-    /* Input box */
-    textarea {
-        border: 2px solid #00BFFF;
-        border-radius: 5px;
-    }
-
-    /* Buttons */
-    div.stButton > button {
-        background-color: #FF00FF;
-        color: white;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-    }
-    div.stButton > button:hover {
-        background-color: #00BFFF;
-    }
-
-    /* Footer */
-    .footer {
-        text-align: center;
-        color: #666666;
-        font-size: 0.9em;
-        margin-top: 20px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
 )
 
 # Title Section with Logo
 st.markdown(
     """
-    <div style="text-align: center;" class="title-container">
+    <div style="text-align: center;">
         <img src="DZELOQ_LOGO.png" alt="DZeloq Logo" width="120">
-        <h1>DZeloq Translator</h1>
-        <div class="subtitle-container">
-            <p>Seamlessly translate between <strong>Darija</strong> and <strong>Arabic</strong>.</p>
-        </div>
+        <h1 style="font-size: 2.5em; color: #4CAF50; margin-top: 10px;">DZeloq Translator</h1>
+        <p style="font-size: 1.2em; color: #666;">
+            Your bridge between <strong>Algerian Darija</strong> and <strong>Arabic</strong>
+        </p>
     </div>
     """,
     unsafe_allow_html=True,
@@ -152,11 +96,5 @@ with col3:
     )
 
 # Footer
-st.markdown(
-    """
-    <div class="footer">
-        Made with ❤️ in Algeria. DZeloq © 2024
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+st.markdown("---")
+st.caption("Made with ❤️ in Algeria. DZeloq © 2024")
