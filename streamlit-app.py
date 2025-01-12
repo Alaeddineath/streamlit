@@ -59,10 +59,8 @@ st.markdown(
     <div style="text-align: center;">
         <img src="DZELOQ_LOGO.png" alt="Dzeloq Logo" width="150">
         <h1 style="font-size: 2.5em; color: black; margin-top: 10px;">
-            <a href="https://www.flaticon.com/free-icons/translation" title="translation icons">Translation icons created by Dragon Icons - Flaticon</a>
             DzEloq Translator
-            </a>
-        </h1>
+            </h1>
         <p style="font-size: 1.2em; color: #666;">
             Your bridge between <strong>Algerian Darija</strong> and <strong>Arabic</strong>.
         </p>
