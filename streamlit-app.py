@@ -25,8 +25,6 @@ def load_huggingface_model():
 
 # Function to handle translation
 def translate_text(tokenizer, model, text):
-    # Check the device (use GPU if available)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     # Tokenize the input text
     encoded_input = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
@@ -59,21 +57,18 @@ st.set_page_config(
 # Title Section: Add the logo and a description
 col1, col2 = st.columns([0.2, 0.8])  # Divide the header into two columns (logo and text)
 
-with col1:
-    # Display the DzEloq logo
-    st.image("DZELOQ_LOGO.png", width=100)
+# The DzEloq logo and title
+st.image("DZELOQ_LOGO.png", width=120)  
 
-with col2:
-    # Add a title and subtitle
-    st.markdown(
-        """
-        <h1 style="font-size: 2.5em; color: #4CAF50; margin-top: 10px;">DzEloq Translator</h1>
-        <p style="font-size: 1.2em; color: #666;">
-            Your bridge between <strong>Algerian Darija</strong> and <strong>Arabic</strong>.
-        </p>
-        """,
-        unsafe_allow_html=True,
-    )
+st.markdown(
+    """
+    <p style="font-size: 1.2em; color: #666; text-align: center;">
+        Your bridge between <strong>Algerian Darija</strong> and <strong>Arabic</strong>.
+    </p>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 # Load the model and tokenizer (cache it to optimize performance)
 tokenizer, model = load_huggingface_model()
