@@ -59,9 +59,9 @@ st.set_page_config(
 logo_path = os.path.abspath("DZELOQ_LOGO.png")
 
 st.markdown(
-    f"""
+    """
     <div style="text-align: center;">
-        <img src="{logo_path}" alt="Dzeloq Logo" width="150">
+        <img src="https://raw.githubusercontent.com/Alaeddineath/streamlit/main/DZELOQ_LOGO.png" alt="Dzeloq Logo" width="150">
         <h1 style="font-size: 2.5em; color: black; margin-top: 10px;">
             <a href="https://www.flaticon.com/free-icons/translation" title="translation icons" style="text-decoration: none; color: black;">
                 DzEloq Translator
@@ -74,7 +74,6 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
 
 # Load the model and tokenizer (cache it to optimize performance)
 tokenizer, model = load_huggingface_model()
