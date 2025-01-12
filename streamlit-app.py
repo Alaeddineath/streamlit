@@ -55,14 +55,18 @@ st.set_page_config(
     page_icon="DZELOQ_LOGO.png",    # Custom logo shown in the browser tab
     layout="centered"               # Center the app layout
 )
-# Display the DzEloq logo, title, and subtitle with proper alignment and styling
+# Get the absolute path to the logo file
+logo_path = os.path.abspath("DZELOQ_LOGO.png")
+
 st.markdown(
-    """
+    f"""
     <div style="text-align: center;">
-        <img src="DZELOQ_LOGO.png" alt="Dzeloq Logo" width="150">
+        <img src="{logo_path}" alt="Dzeloq Logo" width="150">
         <h1 style="font-size: 2.5em; color: black; margin-top: 10px;">
-            DzEloq Translator
-            </h1>
+            <a href="https://www.flaticon.com/free-icons/translation" title="translation icons" style="text-decoration: none; color: black;">
+                DzEloq Translator
+            </a>
+        </h1>
         <p style="font-size: 1.2em; color: #666;">
             Your bridge between <strong>Algerian Darija</strong> and <strong>Arabic</strong>.
         </p>
