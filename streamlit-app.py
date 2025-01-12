@@ -43,16 +43,13 @@ st.set_page_config(
     layout="centered"
 )
 
-# Title and description
-st.markdown(
-    """
-    <h1 style='text-align: center;'>
-        <img src='translation_icon.png' alt='Translation Icon' width='30'/>
-        DZeloq - Translator
-    </h1>
-    """,
-    unsafe_allow_html=True,
-)
+# Title Section
+col1, col2 = st.columns([0.15, 0.85])  # Adjust column width for the title icon and text
+with col1:
+    st.image("translation_icon.png", width=50)  # Add your uploaded icon here
+with col2:
+    st.title("DZeloq - Translator")
+
 st.markdown("Translate **Darija** to **Arabic** seamlessly.")
 
 # Load model and tokenizer
