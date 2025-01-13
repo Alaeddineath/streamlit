@@ -8,11 +8,6 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 def load_huggingface_model():
     model_name = "Dzeloq/nllb-msa-dardja-arb-full-data"
     
-    # Get the Hugging Face token from environment variables
-    hf_token = os.getenv("HUGGINGFACE_TOKEN")
-    if not hf_token:
-        raise ValueError("Hugging Face token not found in environment variables.")
-    
     # Use GPU if available, otherwise fallback to CPU
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
