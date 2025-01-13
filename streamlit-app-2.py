@@ -12,7 +12,7 @@ def load_huggingface_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     # Load the tokenizer and model with the token
-    tokenizer = AutoTokenizer.from_pretrained(model_name, use_auth_token=hf_token)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name).to(device)
     
     return tokenizer, model
