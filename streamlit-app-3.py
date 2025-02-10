@@ -9,7 +9,7 @@ def load_huggingface_model():
     model_name = "Dzeloq/nllb-msa-dardja-14K-arq-colab"
     
     # Get the Hugging Face token from environment variables
-    hf_token = os.getenv("HUGGINGFACE_TOKEN2")
+    hf_token = os.getenv("HUGGINGFACE_TOKEN3")
     if not hf_token:
         raise ValueError("Hugging Face token not found in environment variables.")
     
